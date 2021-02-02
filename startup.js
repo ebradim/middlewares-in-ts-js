@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var interceptor_1 = require("./core/interceptor");
+var message_interceptor_1 = require("./interceptors/message.interceptor");
+var time_interceptor_1 = require("./interceptors/time.interceptor");
+var time = new time_interceptor_1.TimeInterceptor();
+var msg = new message_interceptor_1.MessageInteceptor();
+interceptor_1.PipeBuilder.addPipeline(time);
+interceptor_1.PipeBuilder.addPipeline(msg);
+var invoke = interceptor_1.PipeBuilder.initialize();
+var headers = new interceptor_1.HttpHeaders();
+headers.append("X-Cool");
+headers.append("X-NICE");
+invoke({ url: "www.google.com", headers: headers });
