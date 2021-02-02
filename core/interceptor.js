@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.HttpHeaders = exports.HttpRequest = exports.PipeBuilder = exports.sendRequest = exports.pipes = exports.HttpInterceptor = void 0;
+exports.HttpHeaders = exports.HttpRequest = exports.Pipelines = exports.sendRequest = exports.pipes = exports.HttpInterceptor = void 0;
 var HttpInterceptor = /** @class */ (function () {
     function HttpInterceptor() {
     }
@@ -12,10 +12,10 @@ var sendRequest = function (request) {
     return { url: request.url, headers: request.headers };
 };
 exports.sendRequest = sendRequest;
-var PipeBuilder = /** @class */ (function () {
-    function PipeBuilder() {
+var Pipelines = /** @class */ (function () {
+    function Pipelines() {
     }
-    PipeBuilder.addPipeline = function (pipe) {
+    Pipelines.addMiddleware = function (pipe) {
         if (exports.pipes.length === 0) {
             exports.pipes.push(function (request) {
                 return pipe.handle(request, exports.sendRequest);
@@ -26,12 +26,12 @@ var PipeBuilder = /** @class */ (function () {
             exports.pipes.push(function (req) { return pipe.handle(req, before); });
         }
     };
-    PipeBuilder.initialize = function () {
+    Pipelines.initialize = function () {
         return exports.pipes[exports.pipes.length - 1];
     };
-    return PipeBuilder;
+    return Pipelines;
 }());
-exports.PipeBuilder = PipeBuilder;
+exports.Pipelines = Pipelines;
 var HttpRequest = /** @class */ (function () {
     function HttpRequest(url, headers) {
         this.url = url;

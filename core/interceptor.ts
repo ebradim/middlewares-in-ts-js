@@ -7,8 +7,8 @@ export const pipes: ((request: HttpRequest) => HttpEvent)[] = [];
 export const sendRequest = (request: HttpRequest): HttpEvent => {
   return { url: request.url, headers: request.headers };
 };
-export class PipeBuilder {
-  static addPipeline = (pipe: HttpInterceptor) => {
+export class Pipelines {
+  static addMiddleware = (pipe: HttpInterceptor) => {
     if (pipes.length === 0) {
       pipes.push(function (request: HttpRequest) {
         return pipe.handle(request, sendRequest);
